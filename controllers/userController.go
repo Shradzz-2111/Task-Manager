@@ -1,0 +1,45 @@
+package controllers
+
+import (
+	"github.com/gin-gonic/gin"
+)
+
+func GetUsers() gin.HandlerFunc{
+	return func(c *gin.Context){
+		c.JSON(200,gin.H{
+			"message":"getting all Users",
+		})
+	}}
+
+
+func GetUser() gin.HandlerFunc{
+	return func(c *gin.Context){
+		c.JSON(200,gin.H{
+			"message":"getting User",
+		})
+	}
+}
+
+func SignUp() gin.HandlerFunc{
+	return func(c *gin.Context){
+		c.JSON(200,gin.H{
+			"message":"Signup page",
+		})
+	}
+}
+
+func Login() gin.HandlerFunc{
+	return func(c *gin.Context){
+		c.JSON(200,gin.H{
+			"message":"login Page",
+		})
+	}
+}
+
+func HashPassword(password string) string{
+	return "Hass Pass"
+}
+
+func VerifyPassword(userPassword string,providedPassword string) (bool, string){
+	return true, "verifying"
+}
