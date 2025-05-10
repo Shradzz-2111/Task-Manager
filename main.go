@@ -5,23 +5,16 @@ import(
 	"log"
 	"github.com/Shradzz-2111/Task-Manager/database"
 	"github.com/Shradzz-2111/Task-Manager/routes"
+	"github.com/Shradzz-2111/Task-Manager/initializers"
 	// "github.com/Shradzz-2111/Task-Manager/models"
 	// "github.com/Shradzz-2111/Task-Manager/middleware"
 	// "gorm.io/gorm"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"github.com/gin-gonic/gin"
 )
 
-
-
-func main(){
-	err := godotenv.Load(".env")
-
-	if err !=nil{
-		log.Fatal(err)
-	}
-
-
+func init() {
+	initializers.LoadEnvVariables()
 	config := &database.Config{
 		Host: os.Getenv("DB_HOST"),
 		Port: os.Getenv("DB_PORT"),
@@ -31,17 +24,12 @@ func main(){
 		DBName: os.Getenv("DB_NAME"),
 	}
 
-	db, err := database.NewConnection(config)
-	// database.NewConnection(config)
-	log.Print(db) // just to not get error
+	database.NewConnection(config)
+}
 
-	if err !=nil{
-		log.Fatal(err)
-	}
-	
-	
 
-	// defer db.Close()
+func main(){
+
 	port := os.Getenv("PORT")
 
 	if port == ""{
