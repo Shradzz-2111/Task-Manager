@@ -17,7 +17,7 @@ func GetTasks() gin.HandlerFunc{
 		var tasks []models.Task
 
 
-		if err := database.DB.Raw("SELECT * FROM tasks").Scan(&tasks).Error; err != nil{
+		if err := database.DB.Find(&tasks).Error; err != nil{
 			log.Print("no data")
 			c.JSON(402,gin.H{"error":err.Error()})
 			return 
