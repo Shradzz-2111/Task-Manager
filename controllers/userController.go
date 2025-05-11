@@ -120,9 +120,51 @@ func Login() gin.HandlerFunc{
 			return
 		}
 
+
+		token,err := helpers.GenerateTokens(user.ID)
+		if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+            return
+        }
 		c.JSON(http.StatusOK,gin.H{
-			"message":"logged in Page",
+			"message":"logged in",
+			"token": token,
 		})
 	}
 }
 
+
+
+func GetMe() gin.HandlerFunc{
+	return func(c *gin.Context){
+		user, exists := c.Get("currentUser") 
+		if !exists {
+            c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
+            return
+        }
+
+		currentUser := user.(models.User)
+
+		userResponse := struct {
+            ID        uint      `json:"id"`
+            FirstName string    `json:"firstName"`
+            LastName  string    `json:"lastName"`
+            Email     string    `json:"email"`
+            CreatedAt time.Time `json:"createdAt"`
+        }{
+            ID:        currentUser.ID,
+            FirstName: currentUser.FirstName,
+            LastName:  currentUser.LastName,
+            Email:     currentUser.Email,
+            CreatedAt: currentUser.CreatedAt,
+        }
+
+        c.JSON(http.StatusOK, gin.H{
+            "status": "success",
+            "data":   userResponse,
+        })
+
+
+
+	}
+}

@@ -7,7 +7,7 @@ import(
 	"github.com/Shradzz-2111/Task-Manager/routes"
 	"github.com/Shradzz-2111/Task-Manager/initializers"
 	// "github.com/Shradzz-2111/Task-Manager/models"
-	// "github.com/Shradzz-2111/Task-Manager/middleware"
+	"github.com/Shradzz-2111/Task-Manager/middleware"
 	// "gorm.io/gorm"
 	// "github.com/joho/godotenv"
 	"github.com/gin-gonic/gin"
@@ -40,7 +40,7 @@ func main(){
 	router := gin.New()
 	router.Use(gin.Logger())
 	routes.UserRoutes(router)
-	// router.Use(middleware.Authentication())
+	router.Use(middleware.Authentication())
 
 	routes.TaskRoutes(router)
 

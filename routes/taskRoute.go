@@ -3,13 +3,17 @@ package routes
 import(
 	"github.com/gin-gonic/gin"
 	controller "github.com/Shradzz-2111/Task-Manager/controllers"
+	"github.com/Shradzz-2111/Task-Manager/middleware"
 )
 
 
 func TaskRoutes(incomingRoutes *gin.Engine){
-	incomingRoutes.GET("/tasks",controller.GetTasks())
-	incomingRoutes.GET("/tasks/:task_id",controller.GetTask())
-	incomingRoutes.POST("/tasks",controller.CreateTask())
-	incomingRoutes.PATCH("/tasks/:task_id",controller.UpdateTask())
-	incomingRoutes.DELETE("/tasks/:task_id",controller.DeleteTask())
+	authGroup := incomingRoutes.Group("/")
+    authGroup.Use(middleware.Authentication())
+
+    authGroup.GET("/tasks", controller.GetTasks())
+    authGroup.GET("/tasks/:task_id", controller.GetTask())
+    authGroup.POST("/tasks", controller.CreateTask())
+    authGroup.PATCH("/tasks/:task_id", controller.UpdateTask())
+    authGroup.DELETE("/tasks/:task_id", controller.DeleteTask())
 }
