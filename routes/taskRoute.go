@@ -5,13 +5,6 @@ import(
 	controller "github.com/Shradzz-2111/Task-Manager/controllers"
 )
 
-// type TaskRouteController struct {
-// 	TaskController controller.TaskController
-// }
-
-// func NewRouteTaskController(taskController controller.TaskController) TaskRouteController{
-// 	return TaskRouteController{TaskController}
-// }
 
 func TaskRoutes(incomingRoutes *gin.Engine){
 	incomingRoutes.GET("/tasks",controller.GetTasks())

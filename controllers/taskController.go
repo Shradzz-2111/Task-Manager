@@ -52,9 +52,7 @@ func CreateTask() gin.HandlerFunc{
 			c.JSON(http.StatusBadRequest,gin.H{"error": err.Error()})
 			return
 		}
-
 		task.Id = 0
-
 		if err := database.DB.Create(&task).Error; err !=nil{
 			c.JSON(http.StatusInternalServerError,gin.H{"error":err.Error()})
 			return
