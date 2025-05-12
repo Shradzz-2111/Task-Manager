@@ -6,10 +6,7 @@ import(
 	"github.com/Shradzz-2111/Task-Manager/database"
 	"github.com/Shradzz-2111/Task-Manager/routes"
 	"github.com/Shradzz-2111/Task-Manager/initializers"
-	// "github.com/Shradzz-2111/Task-Manager/models"
 	"github.com/Shradzz-2111/Task-Manager/middleware"
-	// "gorm.io/gorm"
-	// "github.com/joho/godotenv"
 	"github.com/gin-gonic/gin"
 )
 

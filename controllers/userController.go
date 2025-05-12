@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-	// "strconv"
 )
 
 
@@ -163,8 +162,6 @@ func GetMe() gin.HandlerFunc{
             "status": "success",
             "data":   userResponse,
         })
-
-
 
 	}
 }
