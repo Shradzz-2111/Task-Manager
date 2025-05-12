@@ -20,7 +20,7 @@ type Task struct {
 	Title 			*string 	`json:"title"`  //* means we need to provide
 	Description 	*string 	`json:"description"`
 	Status 			Status 		`json:"status"` 
-	DueDate 		*time.Time 	`json:"due_date"`
+	DueDate 		*time.Time 	`json:"due_date" time_format:"2006-01-02"`
 }
 
 func MigrateTasks( db *gorm.DB) error{

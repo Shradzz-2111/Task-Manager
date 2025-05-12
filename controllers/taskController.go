@@ -3,6 +3,7 @@ package controllers
 import (
 	// "time"
 	// "context"
+	"strconv"
 	"net/http"
 	"log"
 	"github.com/gin-gonic/gin"
@@ -23,9 +24,7 @@ func GetTasks() gin.HandlerFunc{
 			return 
 		}
 		
-		c.JSON(200,gin.H{
-			"message":"getting all Tasks",
-		})
+		
 		c.JSON(200,tasks)
 	}
 }
@@ -80,28 +79,29 @@ func UpdateTask() gin.HandlerFunc{
 			c.JSON(http.StatusInternalServerError,gin.H{"error":err.Error()})
 			return
 		}
-		c.JSON(200,gin.H{
-			"message":"Updated Tasks",
-		})
+		var updatedTask models.Task
+    	database.DB.Where("id = ?", taskId).First(&updatedTask)
+    	c.JSON(http.StatusOK, updatedTask)
 	}
 }
 
-func DeleteTask() gin.HandlerFunc{
-	return func(c *gin.Context){
-		currentUser := c.MustGet("currentUser").(models.User)
-		var taskId = c.Param("task_id")
-		result := database.DB.Where("id = ? AND user_id = ?",taskId, currentUser.ID).Delete(&models.Task{})
-		if result.Error != nil{
-			c.JSON(http.StatusInternalServerError,gin.H{"error":result.Error.Error()})
-			return
-		}
+func DeleteTask() gin.HandlerFunc {
+  return func(c *gin.Context) {
+    currentUser := c.MustGet("currentUser").(models.User)
+    taskId := c.Param("task_id")
+	log.Print(taskId)
+    taskIDInt, err := strconv.Atoi(taskId)
+    if err != nil {
+      c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
+      return
+    }
 
-		if result.RowsAffected == 0{
-			c.JSON(http.StatusNotFound, gin.H{"error": "Task not found or unauthorized"})
-            return
-		}
-        
+    result := database.DB.Where("id = ? AND user_id = ?", taskIDInt, currentUser.ID).Delete(&models.Task{})
+    if result.Error != nil {
+      c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+      return
+    }
 
-		c.JSON(http.StatusOK,gin.H{"message":"Task deleted sucessfully!"})
-	}
+    c.JSON(http.StatusOK, gin.H{"message": "Task deleted"})
+  }
 }
